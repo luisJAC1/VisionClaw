@@ -13,6 +13,7 @@ struct SettingsView: View {
   @State private var webrtcSignalingURL: String = ""
   @State private var speakerOutputEnabled: Bool = false
   @State private var videoStreamingEnabled: Bool = true
+  @State private var proactiveNotificationsEnabled: Bool = true
   @State private var showResetConfirmation = false
 
   var body: some View {
@@ -99,6 +100,10 @@ struct SettingsView: View {
           Toggle("Video Streaming", isOn: $videoStreamingEnabled)
         }
 
+        Section(header: Text("Notifications"), footer: Text("Receive proactive updates from OpenClaw (heartbeat, scheduled tasks) spoken through the glasses.")) {
+          Toggle("Proactive Notifications", isOn: $proactiveNotificationsEnabled)
+        }
+
         Section {
           Button("Reset to Defaults") {
             showResetConfirmation = true
@@ -147,6 +152,7 @@ struct SettingsView: View {
     webrtcSignalingURL = settings.webrtcSignalingURL
     speakerOutputEnabled = settings.speakerOutputEnabled
     videoStreamingEnabled = settings.videoStreamingEnabled
+    proactiveNotificationsEnabled = settings.proactiveNotificationsEnabled
   }
 
   private func save() {
@@ -161,5 +167,6 @@ struct SettingsView: View {
     settings.webrtcSignalingURL = webrtcSignalingURL.trimmingCharacters(in: .whitespacesAndNewlines)
     settings.speakerOutputEnabled = speakerOutputEnabled
     settings.videoStreamingEnabled = videoStreamingEnabled
+    settings.proactiveNotificationsEnabled = proactiveNotificationsEnabled
   }
 }

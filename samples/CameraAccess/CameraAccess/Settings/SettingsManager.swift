@@ -15,6 +15,7 @@ final class SettingsManager {
     case webrtcSignalingURL
     case speakerOutputEnabled
     case videoStreamingEnabled
+    case proactiveNotificationsEnabled
   }
 
   private init() {}
@@ -77,12 +78,20 @@ final class SettingsManager {
     set { defaults.set(newValue, forKey: Key.videoStreamingEnabled.rawValue) }
   }
 
+  // MARK: - Notifications
+
+  var proactiveNotificationsEnabled: Bool {
+    get { defaults.object(forKey: Key.proactiveNotificationsEnabled.rawValue) as? Bool ?? true }
+    set { defaults.set(newValue, forKey: Key.proactiveNotificationsEnabled.rawValue) }
+  }
+
   // MARK: - Reset
 
   func resetAll() {
     for key in [Key.geminiAPIKey, .geminiSystemPrompt, .openClawHost, .openClawPort,
                 .openClawHookToken, .openClawGatewayToken, .webrtcSignalingURL,
-                .speakerOutputEnabled, .videoStreamingEnabled] {
+                .speakerOutputEnabled, .videoStreamingEnabled,
+                .proactiveNotificationsEnabled] {
       defaults.removeObject(forKey: key.rawValue)
     }
   }
