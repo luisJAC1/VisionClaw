@@ -4,14 +4,11 @@ workflows:
     max_build_duration: 60
     environment:
       xcode: latest
-      ios_signing:
-        distribution_type: development
-        bundle_identifier: com.luis.visionclaw
     scripts:
       - name: Set bundle ID
         script: |
           sed -i '' 's/com.xiaoanliu.VisionClaw/com.luis.visionclaw/g' samples/CameraAccess/CameraAccess.xcodeproj/project.pbxproj
-      - name: Build iOS app
+      - name: Build iOS app (no signing)
         script: |
           cd samples/CameraAccess
           xcodebuild \
@@ -19,12 +16,7 @@ workflows:
             -scheme CameraAccess \
             -configuration Debug \
             -destination generic/platform=iOS \
-            -archivePath build/CameraAccess.xcarchive \
-            archive
-          xcodebuild \
-            -exportArchive \
-            -archivePath build/CameraAccess.xcarchive \
-            -exportPath build/ipa \
-            -exportOptionsPlist $CM_EXPORT_OPTIONS_PATH
+            CODE_SIGNING_ALLOWED=NO \
+            build
     artifacts:
-      - build/ipa/*.ipa
+      - samples/CameraAccess/build/**/*.app
